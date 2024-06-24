@@ -26,7 +26,7 @@ Go to settings and add the integration.
 
 After that you should see your devices with sensors under the devices-tab.
 
-
+![image](documentation/images/Integration.png)
 
 
 
@@ -41,6 +41,7 @@ The ***getDevices*** method fetches the json for the _facility_id_ of the config
 
 The result looks like this:
 
+![image](documentation/images/json-response.png)
 
 The method is then creating one Device for the *out_temp* and one for every components in json *components array*.
 
