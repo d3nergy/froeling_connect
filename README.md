@@ -65,7 +65,7 @@ self.add_entities_to_device(component,f"{self.controller_name}_{component['compo
 
 ***Other systems json-response might be different!***
 
-***You can check the response in ypour browser looking at the overview service in the network tab***
+***You can check the response in your browser looking at the overview service in the network tab***
 ## Authors
 
 - [@d3nergy](https://www.github.com/d3nergy)
