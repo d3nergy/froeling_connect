@@ -1,7 +1,5 @@
-"""API Placeholder.
-
-You should create your api seperately and have it hosted on PYPI.  This is included here for the sole purpose
-of making this example code executable.
+"""
+API
 """
 import json
 import logging
@@ -11,6 +9,14 @@ import httpx
 from .froelingDevice import FroelingDevice, DeviceType, OutTemp, Boiler, Buffer, FeedSystem, DeviceSensor
 
 _LOGGER = logging.getLogger(__name__)
+
+COMPONENT_TYPE_ICON_MAPPINGS = {
+    'BOILER': 'mdi:water-boiler',
+    'CIRCUIT': 'mdi:heating-coil',
+    'DHW': '"mdi:water-boiler',
+    'BUFFER_TANK': 'propane-tank',
+    'FEED_SYSTEM': 'cog-box'
+}
 
 
 class API:
@@ -29,6 +35,7 @@ class API:
             'Content-Type': 'application/json',
         }
         self.userData = {}
+        self.devices = []
 
     @property
     def controller_name(self) -> str:
@@ -90,13 +97,16 @@ class API:
                                 isParent=True,
                                 device=Boiler(device_id=component['componentId'],
                                               device_unique_id=f"{self.controller_name}_{component['componentId']}"
-                                              , key=component['componentId'], icon="mdi:hvac",
+                                              , key=component['componentId'], icon="mdi:water-boiler",
                                               state=component['state']['displayValue'],
                                               displayName=component['displayName'],
                                               type=DeviceType.COMPONENT))
                         )
                         childrenEntitiesKessel = self.add_entities_to_device(component,
+                                                                             "mdi:water-boiler",
+
                                                                              f"{self.controller_name}_{component['componentId']}",
+
                                                                              ['boilerTemp',
                                                                               'mode2',
                                                                               'ignitionWhenBufferTempBelow'])
@@ -115,6 +125,8 @@ class API:
                                               type=DeviceType.COMPONENT))
                         )
                         childrenEntitiesCircuit = self.add_entities_to_device(component,
+                                                                              "mdi:heating-coil",
+
                                                                               f"{self.controller_name}_{component['componentId']}",
                                                                               ['desiredRoomTemp',
                                                                                'mode',
@@ -133,6 +145,8 @@ class API:
                                               type=DeviceType.COMPONENT))
                         )
                         childrenEntitiesBoiler = self.add_entities_to_device(component,
+                                                                             "mdi:water-boiler",
+
                                                                              f"{self.controller_name}_{component['componentId']}",
                                                                              ['dhwTempTop',
                                                                               'mode',
@@ -152,6 +166,7 @@ class API:
 
                         )
                         childrenEntitiesBuffer = self.add_entities_to_device(component,
+                                                                             "mdi:propane-tank",
                                                                              f"{self.controller_name}_{component['componentId']}",
                                                                              ['bufferPumpControl',
                                                                               'bufferTankCharge',
@@ -174,6 +189,7 @@ class API:
                             )
                         )
                         childrenEntitiesFeedSystem = self.add_entities_to_device(component,
+                                                                                 "mdi:cog-box",
                                                                                  f"{self.controller_name}_{component['componentId']}",
                                                                                  ['pelletsUsageCounter',
                                                                                   'remainingPelletsAmount',
@@ -186,7 +202,7 @@ class API:
             componentDevices = componentDevices + childrenEntitiesKessel + childrenEntitiesCircuit + childrenEntitiesBoiler + childrenEntitiesBuffer + childrenEntitiesFeedSystem
         return [outTempDevice] + componentDevices
 
-    def add_entities_to_device(self, parent, parentId, entities: list[str]):
+    def add_entities_to_device(self, parent, icon, parentId, entities: list[str]):
         entities_to_be_returned = []
         for entity in entities:
             try:
@@ -205,7 +221,7 @@ class API:
                     isParent=False,
                     device=DeviceSensor(device_id=f"{parent['componentId']}_{entity}",
                                         device_unique_id=f"{self.controller_name}_{entity}"
-                                        , key=f"{parent['componentId']}_{entity}", icon="mdi:hvac",
+                                        , key=f"{parent['componentId']}_{entity}", icon=icon,
                                         state=entityState,
                                         displayName=parent[f"{entity}"]['displayName'],
                                         parentIdentifier=parentId,

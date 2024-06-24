@@ -1,4 +1,3 @@
-"""Interfaces with the Integration 101 Template api sensors."""
 
 import logging
 
@@ -32,9 +31,6 @@ async def async_setup_entry(
         config_entry.entry_id
     ].coordinator
 
-    # Enumerate all the sensors in your data value from your DataUpdateCoordinator and add an instance of your sensor class
-    # to a list for each one.
-    # This maybe different in your specific case, depending on how your data is structured
 
     devices = []
 

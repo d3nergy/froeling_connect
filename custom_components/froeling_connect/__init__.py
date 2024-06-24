@@ -8,9 +8,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.device_registry import DeviceEntry
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
-from homeassistant.helpers import device_registry as dr
 
 from .const import DOMAIN
 from .coordinator import FroelingDataCoordinator
@@ -33,17 +33,6 @@ async def async_setup_entry(
     """Set up platform from a ConfigEntry."""
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = entry.data
-
-    device_registry = dr.async_get(hass)
-    device_registry.async_get_or_create(
-        config_entry_id=entry.entry_id,
-        identifiers={(DOMAIN, entry.entry_id)},
-        manufacturer="Froeling",
-        suggested_area="basement",
-        name='Froeling',
-        model='P1',
-
-    )
 
     # Forward the setup to the sensor platform.
     coordinator = FroelingDataCoordinator(hass, entry)

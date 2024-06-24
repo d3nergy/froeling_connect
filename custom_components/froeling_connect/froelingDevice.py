@@ -13,27 +13,6 @@ class DeviceType(StrEnum):
 
 
 @dataclass
-class Component:
-    """API Component."""
-    key: int | str
-    active: bool
-    componentId: str
-    componentNumber: int
-    subType: str
-    displayName: str
-    type: DeviceType
-
-
-@dataclass
-class Device:
-    """API device."""
-    key: int | str
-    device_type: DeviceType
-    name: str
-    value: int | bool | str
-
-
-@dataclass
 class OutTemp:
     """API device."""
     key: int | str
