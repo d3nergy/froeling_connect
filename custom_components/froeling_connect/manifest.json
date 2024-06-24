@@ -6,10 +6,10 @@
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/d3nergy/ha_froeling_connect",
+  "documentation": "https://github.com/d3nergy/froeling_connect",
   "iot_class": "cloud_polling",
   "integration_type": "hub",
-  "issue_tracker": "https://github.com/d3nergy/ha_froeling_connect/issues",
+  "issue_tracker": "https://github.com/d3nergy/froeling_connect/issues",
   "requirements": [
     "httpx~=0.27.0",
     "voluptuous~=0.13.1"
