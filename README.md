@@ -6,6 +6,9 @@ A brief description of what this project does and who it's for
 
 ## Installation
 
+Add the repository to your custom HACS repositories. 
+
+OR
 
 Copy the froeling_connect folder to your custom components in Home Assistant.
 
