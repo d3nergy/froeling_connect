@@ -1,4 +1,3 @@
-
 import logging
 
 from homeassistant.components.sensor import (
@@ -7,7 +6,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfTemperature, UnitOfMass
+from homeassistant.const import UnitOfTemperature, UnitOfMass, PERCENTAGE
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -31,7 +30,6 @@ async def async_setup_entry(
         config_entry.entry_id
     ].coordinator
 
-
     devices = []
 
     for froelingDevice in coordinator.data.devices:
@@ -52,7 +50,6 @@ async def async_setup_entry(
     # Create the sensors.
     await add_sensors(sensors, async_add_entities)
     await add_devices(devices, async_add_entities)
-
 
 
 async def add_devices(devices, async_add_entities):
@@ -149,6 +146,8 @@ class FroelingSensor(CoordinatorEntity, SensorEntity):
             return UnitOfTemperature.CELSIUS
         if self.froelingDevice.device.type == DeviceType.PELLET_SENSOR:
             return UnitOfMass.KILOGRAMS
+        if self.froelingDevice.device.type == DeviceType.PERCENTAGE:
+            return PERCENTAGE
         return None
 
     @property
@@ -163,9 +162,7 @@ class FroelingSensor(CoordinatorEntity, SensorEntity):
         """Return state class."""
         if self.froelingDevice.device.type == DeviceType.TEMP_SENSOR:
             return SensorStateClass.MEASUREMENT
-        if self.froelingDevice.device.type == DeviceType.PELLET_SENSOR:
-            return SensorStateClass.TOTAL
-        return None
+        return SensorStateClass.TOTAL
 
     @property
     def extra_state_attributes(self):

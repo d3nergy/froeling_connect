@@ -238,6 +238,10 @@ class API:
                 return DeviceType.OTHER
             case '°C':
                 return DeviceType.TEMP_SENSOR
+            case 't':
+                return DeviceType.PELLET_SENSOR
+            case '%':
+                return DeviceType.PERCENTAGE
             case _:
                 return DeviceType.OTHER
 

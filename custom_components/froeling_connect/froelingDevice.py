@@ -9,6 +9,7 @@ class DeviceType(StrEnum):
     DOOR_SENSOR = "door_sensor"
     PELLET_SENSOR = "pellet_sensor"
     OTHER = "other",
+    PERCENTAGE = "percentage",
     COMPONENT = 'component'
 
 
