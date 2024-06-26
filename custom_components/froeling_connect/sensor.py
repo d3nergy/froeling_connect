@@ -162,7 +162,9 @@ class FroelingSensor(CoordinatorEntity, SensorEntity):
         """Return state class."""
         if self.froelingDevice.device.type == DeviceType.TEMP_SENSOR:
             return SensorStateClass.MEASUREMENT
-        return SensorStateClass.TOTAL
+        if self.froelingDevice.device.type == DeviceType.PELLET_SENSOR:
+            return SensorStateClass.TOTAL
+        return None
 
     @property
     def extra_state_attributes(self):
